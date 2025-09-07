@@ -1,0 +1,28 @@
+const IncomeStatementFields = {
+    grossProfit: "Gross Profit",
+    totalRevenue: "Total Revenue",
+    costOfRevenue: "Cost of Revenue",
+    operatingIncome: "Operating Income",
+    operatingExpenses: "Operating Expenses",
+    sellingGeneralAndAdministrative: "Selling, General & Administrative",
+    researchAndDevelopment: "Research & Development",
+    depreciationAndAmortization: "Depreciation & Amortization",
+    incomeBeforeTax: "Income Before Tax",
+    incomeTaxExpense: "Income Tax Expense",
+    netIncomeFromContinuingOperations: "Net Income From Continuing Operations",
+    ebit: "EBIT",
+    ebitda: "EBITDA",
+    netIncome: "Net Income",
+    investmentIncomeNet: "Investment Income Net",
+    netInterestIncome: "Net Interest Income",
+    interestIncome: "Interest Income",
+    interestExpense: "Interest Expense",
+    nonInterestIncome: "Non-Interest Income",
+    otherNonOperatingIncome: "Other Non-Operating Income",
+    depreciation: "Depreciation",
+    interestAndDebtExpense: "Interest & Debt Expense",
+    comprehensiveIncomeNetOfTax: "Comprehensive Income Net of Tax",
+    fiscalDateEnding: "Fiscal Date Ending",
+  };
+
+export default IncomeStatementFields;  

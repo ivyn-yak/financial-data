@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from models import *
 from db import Base, engine
+from api.routes import company, stock_price, balance_sheet, income_statement, cash_flow
 
 Base.metadata.create_all(bind=engine)
 
@@ -13,6 +14,13 @@ origins = [
     "http://localhost:3000",  # React dev server
 ]
 
+# include routers
+app.include_router(company.router)
+app.include_router(stock_price.router)
+app.include_router(balance_sheet.router)
+app.include_router(income_statement.router)
+app.include_router(cash_flow.router)
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
@@ -22,10 +30,9 @@ app.add_middleware(
     allow_headers=["*"],         # allow custom headers
 )
 
-@app.get("/<string:ticker>")
-async def get_ticker():
-    # Define a ticker
-    return {"message": "Hello, FastAPI!"}
+@app.get("/")
+def root():
+    return {"message": "API is running 🚀"}
 
 
 @app.get("/tickers/{symbol}")
@@ -39,6 +46,4 @@ def get_ticker(symbol: str):
             "percent_change": 2.7
         }
 
-    
 
-        
