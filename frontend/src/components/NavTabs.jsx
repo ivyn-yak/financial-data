@@ -1,8 +1,9 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 
-export default function NavTabs({ symbol }) {
+export default function NavTabs() {
+  const { symbol } = useParams();
   const location = useLocation();
   const [value, setValue] = useState("/");
 

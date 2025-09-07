@@ -1,5 +1,5 @@
 import { Box, Tabs, Tab } from "@mui/material";
-import * as React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import BalanceSheetGrid from "../components/BalanceSheetGrid";
 import IncomeStatementGrid from "../components/IncomeStatementGrid";
@@ -34,7 +34,7 @@ function a11yProps(index) {
   };
 }
 
-export default function FinancialsTabs({ symbol }) {
+export default function FinancialsPage() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -55,13 +55,13 @@ export default function FinancialsTabs({ symbol }) {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <BalanceSheetGrid symbol={symbol} />
+        <BalanceSheetGrid />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <IncomeStatementGrid symbol={symbol} />
+        <IncomeStatementGrid />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <CashFlowGrid symbol={symbol} />
+        <CashFlowGrid />
       </CustomTabPanel>
     </Box>
   );

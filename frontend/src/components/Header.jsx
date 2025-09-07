@@ -1,8 +1,10 @@
 import * as React from "react";
 import { Typography, Box } from "@mui/material";
 import useFetch from "../hooks/useFetch";
+import { useParams } from "react-router-dom";
 
-const Header = ({ symbol }) => {
+const Header = () => {
+  const { symbol } = useParams();
   const url = `/tickers/${symbol}`;
   const { data, loading, error } = useFetch(url);
 

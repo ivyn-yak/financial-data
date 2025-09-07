@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import useFinancialData from "../hooks/useFinancialData";
 import IncomeStatementFields from "../consts/IncomeStatementFields.jsx";
 import FinancialDataGrid from "./FinancialDataGrid";
+import { useParams } from "react-router-dom";
 
-function IncomeStatementGrid({ symbol }) {
+function IncomeStatementGrid() {
+  const { symbol } = useParams();
   const [period, setPeriod] = useState("Quarterly");
   const url = `/income_statement/${symbol}?period=${period}&k=5`;
   const { rows, columns, loading, error } = useFinancialData(url, IncomeStatementFields);

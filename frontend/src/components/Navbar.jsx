@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import NavTabs from "./Navtabs";
 import Header from "./Header";
 
-const NavBar = ({ elevation = 0, sticky = true, symbol }) => {
+const NavBar = ({ elevation = 0, sticky = true }) => {
   return (
     <AppBar
       position={sticky ? "sticky" : "static"}
@@ -16,8 +16,8 @@ const NavBar = ({ elevation = 0, sticky = true, symbol }) => {
         boxShadow: (theme) => `0 1px 4px ${theme.palette.grey[400]}33`,
       }}
     >
-      <Header symbol={symbol}/>
-      <NavTabs symbol={symbol}/>
+      <Header />
+      <NavTabs />
     </AppBar>
   );
 };
