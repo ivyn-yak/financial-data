@@ -23,23 +23,18 @@ class TransformData:
         filtered_data = filter_json_for_model(json_data, CompanyInput)
         return CompanyInput(**filtered_data)
     
-    def get_balance_sheet_schema(self, json_data, quarters=4) -> List[BalanceSheetInput]:
+    def get_financials_schema(self, json_data, model, quarters=4):
         symbol = json_data.get("symbol", "")
-        reports = json_data.get("quarterlyReports", [])
-        filtered_data_list = self._filter_quarterly_reports(symbol, reports, BalanceSheetInput, quarters)
-        return filtered_data_list
-    
-    def get_income_statement_schema(self, json_data, quarters=4) -> List[IncomeStatementInput]:
-        symbol = json_data.get("symbol", "")
-        reports = json_data.get("quarterlyReports", [])
-        filtered_data_list = self._filter_quarterly_reports(symbol, reports, IncomeStatementInput, quarters)
-        return filtered_data_list
-    
-    def get_cash_flow_schema(self, json_data, quarters=4) -> List[CashFlowStatementInput]:
-        symbol = json_data.get("symbol", "")
-        reports = json_data.get("quarterlyReports", [])
-        filtered_data_list = self._filter_quarterly_reports(symbol, reports, CashFlowStatementInput, quarters)
-        return filtered_data_list
+        quarterly_reports = json_data.get("quarterlyReports", [])
+        annual_reports = json_data.get("annualReports", [])
+
+        filtered_quarterly_reports = self._filter_quarterly_reports(symbol, quarterly_reports, model, quarters, period="Quarterly")
+        filtered_annual_reports = self._filter_quarterly_reports(symbol, annual_reports, model, quarters, period="Annual")
+
+        merged = filtered_quarterly_reports + filtered_annual_reports
+        merged.sort(key=lambda x: x.fiscalDateEnding, reverse=True)
+
+        return merged
     
     def get_news_articles_schema(self, json_data) -> List[NewsArticleInput]:
         articles = json_data.get("feed", [])
@@ -71,7 +66,7 @@ class TransformData:
 
         return EarningsCallInput(**filtered_data)
 
-    def _filter_quarterly_reports(self, symbol, reports, model, quarters=8):
+    def _filter_quarterly_reports(self, symbol, reports, model, quarters=8, period="Quarterly"):
         company_id = self.get_company_id(symbol)
         if company_id is None:
             raise ValueError(f"Company with symbol {symbol} not found.")
@@ -80,6 +75,7 @@ class TransformData:
         for report in reports[:quarters]:
             filtered_data = filter_json_for_model(report, model)
             filtered_data["company_id"] = company_id
+            filtered_data["period"] = period
             filtered_data_list.append(model(**filtered_data))
             
         return filtered_data_list

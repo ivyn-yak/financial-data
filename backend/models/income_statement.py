@@ -1,7 +1,8 @@
 import uuid
-from sqlalchemy import Column, String, BigInteger, Date, ForeignKey
+from sqlalchemy import Column, String, BigInteger, Date, ForeignKey, Enum
 from sqlalchemy.dialects.postgresql import UUID
 from db import Base
+from schemas.enums import Period
 
 class IncomeStatement(Base):
     __tablename__ = "income_statement"
@@ -11,6 +12,7 @@ class IncomeStatement(Base):
 
     fiscalDateEnding = Column(Date)
     reportedCurrency = Column(String(10))
+    period = Column(Enum(Period), nullable=False)
 
     # Key Income Statement Items
     grossProfit = Column(BigInteger)

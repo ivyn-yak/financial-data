@@ -1,7 +1,8 @@
 import uuid
-from sqlalchemy import Column, String, BigInteger, Date, ForeignKey
+from sqlalchemy import Column, String, BigInteger, Date, ForeignKey, Enum
 from sqlalchemy.dialects.postgresql import UUID
 from db import Base
+from schemas.enums import Period
 
 class BalanceSheet(Base):
     __tablename__ = "balance_sheet"
@@ -9,8 +10,9 @@ class BalanceSheet(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     company_id = Column(UUID(as_uuid=True), ForeignKey("company.id"), nullable=False)
 
-    fiscalDateEnding = Column(Date)
+    fiscalDateEnding = Column(Date, nullable=False)
     reportedCurrency = Column(String(10))
+    period = Column(Enum(Period), nullable=False)
 
     # Assets
     totalAssets = Column(BigInteger)

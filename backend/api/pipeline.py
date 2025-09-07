@@ -1,6 +1,7 @@
 from api.alphavantage import AlphaVantage
 from api.transform_data import TransformData
 from api.load_data import LoadData
+from schemas import BalanceSheetInput, IncomeStatementInput, CashFlowStatementInput
 from db import SessionLocal
 
 class DataPipeline:
@@ -28,21 +29,21 @@ class DataPipeline:
 
     def run_balance_sheet(self, symbol, quarters=4):
         json_data = self.av.get_fundamental_data(symbol, "BALANCE_SHEET")
-        processed_data = self.transformer.get_balance_sheet_schema(json_data, quarters)
+        processed_data = self.transformer.get_financials_schema(json_data, BalanceSheetInput, quarters)
         session = self.get_session()
         self.loader.batch_insert_balance_sheet(session, processed_data)
         session.close()
 
     def run_income_statement(self, symbol, quarters=4):
         json_data = self.av.get_fundamental_data(symbol, "INCOME_STATEMENT")
-        processed_data = self.transformer.get_income_statement_schema(json_data, quarters)
+        processed_data = self.transformer.get_financials_schema(json_data, IncomeStatementInput, quarters)
         session = self.get_session()
         self.loader.batch_insert_income_statement(session, processed_data)
         session.close()
 
     def run_cash_flow(self, symbol, quarters=4):
         json_data = self.av.get_fundamental_data(symbol, "CASH_FLOW")
-        processed_data = self.transformer.get_cash_flow_schema(json_data, quarters)
+        processed_data = self.transformer.get_financials_schema(json_data, CashFlowStatementInput, quarters)
         session = self.get_session()
         self.loader.batch_insert_cash_flow(session, processed_data)
         session.close()

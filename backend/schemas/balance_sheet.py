@@ -2,12 +2,14 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import date
 from uuid import UUID
-
+from schemas.enums import Period
+    
 # Input schema
 class BalanceSheetInput(BaseModel):
     company_id: UUID
     fiscalDateEnding: date
     reportedCurrency: Optional[str]
+    period: Period
 
     # Assets
     totalAssets: Optional[int]
