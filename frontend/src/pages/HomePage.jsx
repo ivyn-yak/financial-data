@@ -6,6 +6,7 @@ import useFetch from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { Grid, Box, Stack } from "@mui/material";
 import SectionBox from "../components/SectionBox";
+import NewsSidebar from "../components/NewsSidebar";
 
 function HomePage() {
   const { symbol } = useParams();
@@ -43,9 +44,9 @@ function HomePage() {
               }
             />
             <SectionBox
-              title="Company Profile"
+              title="Recent News"
               children={
-                <CompanyProfile data={data} loading={loading} error={error} />
+                <NewsSidebar />
               }
             />
           </Stack>

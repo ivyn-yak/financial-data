@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from models import *
 from db import Base, engine
-from api.routes import company, stock_price, balance_sheet, income_statement, cash_flow
+from api.routes import company, stock_price, balance_sheet, news, income_statement, cash_flow
 
 Base.metadata.create_all(bind=engine)
 
@@ -18,6 +18,7 @@ origins = [
 app.include_router(company.router)
 app.include_router(stock_price.router)
 app.include_router(balance_sheet.router)
+app.include_router(news.router)
 app.include_router(income_statement.router)
 app.include_router(cash_flow.router)
 
@@ -45,5 +46,4 @@ def get_ticker(symbol: str):
             "change": -4.64,
             "percent_change": 2.7
         }
-
 
