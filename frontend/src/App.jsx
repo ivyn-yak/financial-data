@@ -1,7 +1,7 @@
 import { Routes, Route, useParams } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
-// import PerformancePage from "./PerformancePage";
+import PerformancePage from "./pages/PerformancePage";
 import FinancialsPage from "./pages/FinancialsPage";
 import NewsPage from "./pages/NewsPage";
 import EventsPage from "./pages/EventsPage";
@@ -16,7 +16,7 @@ function App() {
       <main className="App-content">
         <Routes>
           <Route path="" element={<HomePage />} />
-          <Route path="performance" element={<HomePage />} />
+          <Route path="performance" element={<PerformancePage />} />
           <Route path="financial" element={<FinancialsPage />} />
           <Route path="news" element={<NewsPage />} />
           <Route path="events" element={<EventsPage />} />

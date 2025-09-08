@@ -1,8 +1,6 @@
 import requests
 from api.utils import save_to_json, build_news_filename
 import requests_cache
-from requests import Session
-
 
 class AlphaVantage:
     BASE_URL = "https://www.alphavantage.co/query"
