@@ -1,10 +1,21 @@
 import requests
 from api.utils import save_to_json, build_news_filename
+import requests_cache
+from requests import Session
+
 
 class AlphaVantage:
     BASE_URL = "https://www.alphavantage.co/query"
 
-    def __init__(self, api_key):
+    def __init__(self, api_key: str, cache_name="av_cache", expire_after=3600):
+        self.session = requests_cache.CachedSession(
+            cache_name=cache_name,
+            backend="sqlite",
+            expire_after=expire_after,
+            allowable_methods=("GET", "POST"),
+            allowable_codes=(200,),
+            stale_if_error=True,
+        )
         self.api_key = api_key
 
     # Can be reused for different functions by changing the 'function' parameter
@@ -15,7 +26,7 @@ class AlphaVantage:
             "symbol": symbol,
             "apikey": self.api_key,
         }
-        response = requests.get(self.BASE_URL, params=params)
+        response = self.session.get(self.BASE_URL, params=params)
         if response.status_code == 200:
             data = response.json()
             save_to_json(data, f"{symbol}_{function}.json")
@@ -42,7 +53,7 @@ class AlphaVantage:
         if limit:
             params["limit"] = limit
         
-        response = requests.get(self.BASE_URL, params=params)
+        response = self.session.get(self.BASE_URL, params=params)
         if response.status_code == 200:
             data = response.json()
             news_filename = build_news_filename(tickers, topics, time_from, time_to, sort, limit)
@@ -59,10 +70,38 @@ class AlphaVantage:
             "apikey": self.api_key,
         }
 
-        response = requests.get(self.BASE_URL, params=params)
+        response = self.session.get(self.BASE_URL, params=params)
         if response.status_code == 200:
             data = response.json()
             save_to_json(data, f"{symbol}_transcript_q{quarter}.json")
+            return data
+        else:
+            response.raise_for_status()
+
+    def get_quote_endpoint(self, symbol):
+        params = {
+            "function": "GLOBAL_QUOTE",
+            "symbol": symbol,
+            "apikey": self.api_key,
+        }
+        response = self.session.get(self.BASE_URL, params=params)
+        if response.status_code == 200:
+            data = response.json()
+            return data
+        else:
+            response.raise_for_status()
+
+    def get_historical_data(self, symbol, outputsize="compact"):
+        params = {
+            "function": "TIME_SERIES_DAILY",
+            "symbol": symbol,
+            "outputsize": outputsize,
+            "apikey": self.api_key,
+        }
+        response = self.session.get(self.BASE_URL, params=params)
+        if response.status_code == 200:
+            data = response.json()
+            save_to_json(data, f"{symbol}_historical_daily.json")
             return data
         else:
             response.raise_for_status()

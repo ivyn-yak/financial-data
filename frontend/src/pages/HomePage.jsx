@@ -20,9 +20,9 @@ function HomePage() {
         <Grid item size={{ xs: 12, md: 8 }}>
           <Stack spacing={1}>
             <SectionBox
-              title="Key Statistics"
+              title={`${symbol} Stock Chart`}
               children={
-                <KeyStats data={data} loading={loading} error={error} />
+                <StockChart />
               }
             />
             <SectionBox

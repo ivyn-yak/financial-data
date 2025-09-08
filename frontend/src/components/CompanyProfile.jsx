@@ -12,7 +12,7 @@ import {
 function CompanyProfile({ data, loading, error }) {
   if (loading) return <p>Loading stock data...</p>;
   if (error) return <p>Error: {error}</p>;
-  if (!data) return <p>No data available for {symbol}</p>;
+  if (!data) return <p>No data available</p>;
 
   const profiles = [
     { label: "Symbol", value: data.Symbol },

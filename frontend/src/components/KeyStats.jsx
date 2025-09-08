@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 function KeyStats({ data, loading, error }) {
+  const symbol = data?.Symbol || "N/A";
   const formatNumber = (num) => {
     if (num === null || num === undefined) return "-";
     if (num >= 1e12) return (num / 1e12).toFixed(2) + "T";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Divider } from "@mui/material";
 import useFetch from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
 
@@ -7,6 +7,7 @@ const Header = () => {
   const { symbol } = useParams();
   const url = `/tickers/${symbol}`;
   const { data, loading, error } = useFetch(url);
+  console.log("Fetched header data:", data);
 
   if (loading) return <Typography>Loading...</Typography>;
   if (error) return <Typography>Error fetching data</Typography>;
@@ -24,39 +25,38 @@ const Header = () => {
         p: 2,
         zIndex: 1000,
         bgcolor: "white",
-        gap: 2,
+        gap: 3,
       }}
     >
       {/* Symbol */}
-      <Typography variant="h4" sx={{ fontWeight: 700 }}>
+      <Typography variant="h5" sx={{ fontWeight: 600 }}>
         {entity.symbol ?? "N/A"}
       </Typography>
 
-      {/* Price + currency */}
+      {/* Vertical Divider */}
+      <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
 
-      <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5 }}>
+      {/* Price + currency */}
+      <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
         <Typography variant="h5" sx={{ fontWeight: 700 }}>
           {entity.last_price?.toFixed(2) ?? "--"}
         </Typography>
-        <Typography variant="subtitle1" sx={{ color: "text.secondary" }}>
-          {entity.currency ?? ""}
+
+        {/* Change + percentage */}
+        <Typography
+          variant="h6"
+          sx={{ color: isPositive ? "green" : "red", fontWeight: "bold" }}
+        >
+          {entity.change != null ? (entity.change >= 0 ? "+" : "") : ""}
+          {entity.change?.toFixed(2) ?? "--"} (
+          {entity.percent_change != null
+            ? entity.percent_change >= 0
+              ? "+"
+              : ""
+            : ""}
+          {entity.percent_change?.toFixed(2) ?? "--"}%)
         </Typography>
       </Box>
-
-      {/* Change + percentage */}
-      <Typography
-        variant="h6"
-        sx={{ color: isPositive ? "green" : "red", fontWeight: "bold" }}
-      >
-        {entity.change != null ? (entity.change >= 0 ? "+" : "") : ""}
-        {entity.change?.toFixed(2) ?? "--"} (
-        {entity.percent_change != null
-          ? entity.percent_change >= 0
-            ? "+"
-            : ""
-          : ""}
-        {entity.percent_change?.toFixed(2) ?? "--"}%)
-      </Typography>
     </Box>
   );
 };
