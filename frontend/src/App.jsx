@@ -1,11 +1,11 @@
 import { Routes, Route, useParams } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import HomePage from "./pages/HomePage";
-import PerformancePage from "./pages/PerformancePage";
-import FinancialsPage from "./pages/FinancialsPage";
-import NewsPage from "./pages/NewsPage";
-import EventsPage from "./pages/EventsPage";
-import TranscriptPage from "./pages/TranscriptPage";
+import HomePage from "./pages/HomePage.jsx";
+import PerformancePage from "./pages/PerformancePage.jsx";
+import FinancialsPage from "./pages/FinancialsPage.jsx";
+import NewsPage from "./pages/NewsPage.jsx";
+import EventsPage from "./pages/EventsPage.jsx";
+import TranscriptPage from "./pages/TranscriptPage.jsx";
 
 function App() {
   const { symbol } = useParams(); 

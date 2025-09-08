@@ -1,10 +1,10 @@
 import React from "react";
 import { useParams, useLocation } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
-import Transcript from "../components/Transcript";
-import TranscriptSidebar from "../components/TranscriptSidebar";
+import useFetch from "../hooks/useFetch.jsx";
+import Transcript from "../components/Transcript.jsx";
+import TranscriptSidebar from "../components/TranscriptSidebar.jsx";
 import { Grid, Box } from "@mui/material";
-import SectionBox from "../components/SectionBox";
+import SectionBox from "../components/SectionBox.jsx";
 
 export default function TranscriptPage() {
   const { symbol, earnings_call_id } = useParams();

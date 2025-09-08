@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Box, Typography, Chip } from "@mui/material";
-import useFetch from "./useFetch";
+import { Box, Chip } from "@mui/material";
+import useFetch from "./useFetch.jsx";
 
 export default function useNewsData(url) {
   const [rows, setRows] = useState([]);

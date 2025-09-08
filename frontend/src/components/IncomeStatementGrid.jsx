@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import useFinancialData from "../hooks/useFinancialData";
+import useFinancialData from "../hooks/useFinancialData.jsx";
 import IncomeStatementFields from "../consts/IncomeStatementFields.jsx";
-import FinancialDataGrid from "./FinancialDataGrid";
+import FinancialDataGrid from "./FinancialDataGrid.jsx";
 import { useParams } from "react-router-dom";
 
 function IncomeStatementGrid() {

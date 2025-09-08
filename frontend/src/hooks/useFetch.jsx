@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {getData} from "./api";
+import {getData} from "./api.jsx";
 
 const useFetch = (endpoint) => {
   const [data, setData] = useState(null);

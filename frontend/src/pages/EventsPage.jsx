@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../hooks/useFetch.jsx";
 
 export default function EventsPage() {
   const { symbol } = useParams();

@@ -1,9 +1,9 @@
 import { Box, Tabs, Tab } from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
-import BalanceSheetGrid from "../components/BalanceSheetGrid";
-import IncomeStatementGrid from "../components/IncomeStatementGrid";
-import CashFlowGrid from "../components/CashFlowGrid";
+import BalanceSheetGrid from "../components/BalanceSheetGrid.jsx";
+import IncomeStatementGrid from "../components/IncomeStatementGrid.jsx";
+import CashFlowGrid from "../components/CashFlowGrid.jsx";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;

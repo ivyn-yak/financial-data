@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../hooks/useFetch.jsx";
 import { useParams } from "react-router-dom";
 import {
   Chart as ChartJS,

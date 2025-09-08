@@ -1,7 +1,7 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
-import NavTabs from "./Navtabs";
-import Header from "./Header";
+import NavTabs from "./NavTabs.jsx";
+import Header from "./Header.jsx";
 
 const NavBar = ({ elevation = 0, sticky = true }) => {
   return (

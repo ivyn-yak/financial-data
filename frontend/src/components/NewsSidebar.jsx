@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../hooks/useFetch.jsx";
 
 function NewsSidebar() {
   const { symbol } = useParams();
@@ -19,21 +19,26 @@ function NewsSidebar() {
   console.log("NewsSidebar data:", data);
 
   if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>Error fetching data</Typography>;
-  if (!data) return <Typography>No data available</Typography>;
+  if (error) return <Typography color="error">Error fetching data</Typography>;
+
+  // Ensure data is an array before mapping
+  const articles = Array.isArray(data) ? data : [];
+
+  if (articles.length === 0)
+    return <Typography>No news available for {symbol}</Typography>;
 
   return (
     <Box sx={{ marginBottom: 3 }}>
       <TableContainer component={Paper} elevation={0}>
         <Table size="small">
           <TableBody>
-            {data.map((article) => (
+            {articles.map((article) => (
               <TableRow
                 key={article.id}
                 sx={{
                   cursor: "pointer",
                   "&:hover": { backgroundColor: "#f5f5f5" },
-                  height: 80, 
+                  height: 80,
                 }}
                 onClick={() => window.open(article.url, "_blank")}
               >
@@ -43,8 +48,8 @@ function NewsSidebar() {
                       src={article.banner_image}
                       alt={article.title}
                       style={{
-                        width: 80, 
-                        height: 60, 
+                        width: 80,
+                        height: 60,
                         objectFit: "cover",
                         borderRadius: 2,
                         display: "block",
@@ -74,11 +79,13 @@ function NewsSidebar() {
                     }}
                   >
                     <Typography variant="subtitle2" fontWeight="bold">
-                      {article.title}
+                      {article.title ?? "-"}
                     </Typography>
                     <Typography variant="caption" color="textSecondary">
-                      {article.source} |{" "}
-                      {new Date(article.time_published).toLocaleDateString()}
+                      {article.source ?? "-"} |{" "}
+                      {article.time_published
+                        ? new Date(article.time_published).toLocaleDateString()
+                        : "-"}
                     </Typography>
                   </Box>
                 </TableCell>

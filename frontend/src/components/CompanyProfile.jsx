@@ -7,12 +7,13 @@ import {
   TableContainer,
   TableRow,
   Paper,
+  Typography,
 } from "@mui/material";
 
 function CompanyProfile({ data, loading, error }) {
   if (loading) return <p>Loading stock data...</p>;
   if (error) return <p>Error: {error}</p>;
-  if (!data) return <p>No data available</p>;
+  if (!data || typeof data !== "object") return <Typography>No data available</Typography>;
 
   const profiles = [
     { label: "Symbol", value: data.Symbol },

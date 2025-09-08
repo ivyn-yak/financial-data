@@ -1,12 +1,12 @@
 import React from "react";
-import StockChartYF from "../components/StockChartYF";
-import KeyStats from "../components/KeyStats";
-import CompanyProfile from "../components/CompanyProfile";
-import useFetch from "../hooks/useFetch";
+import StockChartYF from "../components/StockChartYF.jsx";
+import KeyStats from "../components/KeyStats.jsx";
+import CompanyProfile from "../components/CompanyProfile.jsx";
+import useFetch from "../hooks/useFetch.jsx";
 import { useParams } from "react-router-dom";
 import { Grid, Box, Stack } from "@mui/material";
-import SectionBox from "../components/SectionBox";
-import NewsSidebar from "../components/NewsSidebar";
+import SectionBox from "../components/SectionBox.jsx";
+import NewsSidebar from "../components/NewsSidebar.jsx";
 
 function HomePage() {
   const { symbol } = useParams();

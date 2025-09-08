@@ -10,80 +10,71 @@ import {
   Typography,
   LinearProgress,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
 
-function TranscriptSidebar({ data }) {
-  if (!data) return <Typography>No data available</Typography>;
+export default function TranscriptSidebar({ data }) {
+  // Ensure data is an array
+  const segments = Array.isArray(data) ? data : [];
+  if (segments.length === 0)
+    return <Typography>No transcript data available</Typography>;
 
-  const sentiments = data.map((seg) => seg.sentiment);
+  // Sentiments array (default 0)
+  const sentiments = segments.map((seg) => seg.sentiment ?? 0);
 
   // Overall metrics
   const avgSentiment =
-    sentiments.reduce((sum, s) => sum + s, 0) / sentiments.length;
-
+    sentiments.length > 0
+      ? sentiments.reduce((sum, s) => sum + s, 0) / sentiments.length
+      : 0;
   const minSentiment = Math.min(...sentiments);
   const maxSentiment = Math.max(...sentiments);
 
-  // Distribution
+  // Distribution counts
   const distribution = {
     positive: sentiments.filter((s) => s > 0).length,
     negative: sentiments.filter((s) => s < 0).length,
     neutral: sentiments.filter((s) => s === 0).length,
   };
 
-  const metrics = {
-    avgSentiment,
-    minSentiment,
-    maxSentiment,
-    distribution,
-  };
-
   const totalSegments =
-    metrics.distribution.positive +
-    metrics.distribution.negative +
-    metrics.distribution.neutral;
+    distribution.positive + distribution.negative + distribution.neutral;
 
   const distPercent = {
-    positive: (metrics.distribution.positive / totalSegments) * 100,
-    negative: (metrics.distribution.negative / totalSegments) * 100,
-    neutral: (metrics.distribution.neutral / totalSegments) * 100,
+    positive: (distribution.positive / totalSegments) * 100,
+    negative: (distribution.negative / totalSegments) * 100,
+    neutral: (distribution.neutral / totalSegments) * 100,
   };
 
-  const sectionGroups = data.reduce((acc, seg) => {
-    if (!acc[seg.title]) {
-      acc[seg.title] = [];
-    }
-    acc[seg.title].push(seg.sentiment);
+  // Group segments by section/title
+  const sectionGroups = segments.reduce((acc, seg) => {
+    const title = seg.title ?? "No Section";
+    if (!acc[title]) acc[title] = [];
+    acc[title].push(seg.sentiment ?? 0);
     return acc;
   }, {});
 
-  // Compute average per section
+  // Compute section averages
   const sectionAverages = Object.fromEntries(
-    Object.entries(sectionGroups).map(([title, sentiments]) => [
+    Object.entries(sectionGroups).map(([title, segSentiments]) => [
       title,
-      sentiments.reduce((sum, s) => sum + s, 0) / sentiments.length,
+      segSentiments.length
+        ? segSentiments.reduce((sum, s) => sum + s, 0) / segSentiments.length
+        : 0,
     ])
   );
 
+  // Sentiment text color
   const sentimentColor = (score) => {
-    if (score > 0) {
-      return { color: "green" };
-    }
-    if (score < 0) {
-      return { color: "red" };
-    }
-    return { color: "black" };
+    if (score > 0) return { color: "green" };
+    if (score < 0) return { color: "red" };
+    return { color: "gray" };
   };
-
-  console.log("Transcript metrics:", metrics);
 
   return (
     <Box sx={{ marginBottom: 3 }}>
       <TableContainer component={Paper} elevation={0}>
         <Table size="small">
           <TableBody>
-            {/* Section Header */}
+            {/* Overall Metrics Header */}
             <TableRow>
               <TableCell colSpan={2} sx={{ bgcolor: "#fafafa" }}>
                 <Typography variant="subtitle2" fontWeight="bold">
@@ -92,7 +83,7 @@ function TranscriptSidebar({ data }) {
               </TableCell>
             </TableRow>
 
-            {/* Overall Avg */}
+            {/* Average Sentiment */}
             <TableRow>
               <TableCell sx={{ width: 150 }}>
                 <Typography variant="subtitle2" fontWeight="bold">
@@ -102,12 +93,9 @@ function TranscriptSidebar({ data }) {
               <TableCell>
                 <Typography
                   variant="body2"
-                  sx={{
-                    ...sentimentColor(metrics.avgSentiment),
-                    fontWeight: 600,
-                  }}
+                  sx={{ ...sentimentColor(avgSentiment), fontWeight: 600 }}
                 >
-                  {metrics.avgSentiment.toFixed(2)}
+                  {avgSentiment.toFixed(2)}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -122,17 +110,12 @@ function TranscriptSidebar({ data }) {
               <TableCell>
                 <Typography
                   variant="body2"
-                  sx={{
-                    ...sentimentColor(metrics.minSentiment),
-                    fontWeight: 600,
-                  }}
+                  sx={{ ...sentimentColor(minSentiment), fontWeight: 600 }}
                 >
-                  {metrics.minSentiment}
+                  {minSentiment.toFixed(2)}
                 </Typography>
               </TableCell>
             </TableRow>
-
-            {/* Min / Max */}
             <TableRow>
               <TableCell>
                 <Typography variant="subtitle2" fontWeight="bold">
@@ -142,12 +125,9 @@ function TranscriptSidebar({ data }) {
               <TableCell>
                 <Typography
                   variant="body2"
-                  sx={{
-                    ...sentimentColor(metrics.maxSentiment),
-                    fontWeight: 600,
-                  }}
+                  sx={{ ...sentimentColor(maxSentiment), fontWeight: 600 }}
                 >
-                  {metrics.maxSentiment}
+                  {maxSentiment.toFixed(2)}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -161,44 +141,31 @@ function TranscriptSidebar({ data }) {
               </TableCell>
               <TableCell>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                  <Box>
-                    <Typography variant="caption" color="textSecondary">
-                      Positive ({metrics.distribution.positive})
-                    </Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={distPercent.positive}
-                      sx={{ height: 6, borderRadius: 1, mt: 0.5 }}
-                      color="success"
-                    />
-                  </Box>
-                  <Box>
-                    <Typography variant="caption" color="textSecondary">
-                      Negative ({metrics.distribution.negative})
-                    </Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={distPercent.negative}
-                      sx={{ height: 6, borderRadius: 1, mt: 0.5 }}
-                      color="error"
-                    />
-                  </Box>
-                  <Box>
-                    <Typography variant="caption" color="textSecondary">
-                      Neutral ({metrics.distribution.neutral})
-                    </Typography>
-                    <LinearProgress
-                      variant="determinate"
-                      value={distPercent.neutral}
-                      sx={{ height: 6, borderRadius: 1, mt: 0.5 }}
-                      color="info"
-                    />
-                  </Box>
+                  {["positive", "negative", "neutral"].map((key) => (
+                    <Box key={key}>
+                      <Typography variant="caption" color="textSecondary">
+                        {key.charAt(0).toUpperCase() + key.slice(1)} (
+                        {distribution[key]})
+                      </Typography>
+                      <LinearProgress
+                        variant="determinate"
+                        value={distPercent[key]}
+                        sx={{ height: 6, borderRadius: 1, mt: 0.5 }}
+                        color={
+                          key === "positive"
+                            ? "success"
+                            : key === "negative"
+                            ? "error"
+                            : "info"
+                        }
+                      />
+                    </Box>
+                  ))}
                 </Box>
               </TableCell>
             </TableRow>
 
-            {/* Section Header */}
+            {/* Section Averages Header */}
             <TableRow>
               <TableCell colSpan={2} sx={{ bgcolor: "#fafafa" }}>
                 <Typography variant="subtitle2" fontWeight="bold">
@@ -211,10 +178,7 @@ function TranscriptSidebar({ data }) {
             {Object.entries(sectionAverages).map(([section, avg]) => (
               <TableRow
                 key={section}
-                sx={{
-                  cursor: "pointer",
-                  "&:hover": { backgroundColor: "#f5f5f5" },
-                }}
+                sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
               >
                 <TableCell>
                   <Typography variant="body2">{section}</Typography>
@@ -222,10 +186,7 @@ function TranscriptSidebar({ data }) {
                 <TableCell>
                   <Typography
                     variant="body2"
-                    sx={{
-                      ...sentimentColor(avg),
-                      fontWeight: 600,
-                    }}
+                    sx={{ ...sentimentColor(avg), fontWeight: 600 }}
                   >
                     {avg.toFixed(2)}
                   </Typography>
@@ -238,5 +199,3 @@ function TranscriptSidebar({ data }) {
     </Box>
   );
 }
-
-export default TranscriptSidebar;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useFetch from "./useFetch";
+import useFetch from "./useFetch.jsx";
 
 export default function useFinancialData(url, fieldMap) {
   const [rows, setRows] = useState([]);

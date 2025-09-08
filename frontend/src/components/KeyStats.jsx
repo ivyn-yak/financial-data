@@ -12,6 +12,7 @@ import {
 
 function KeyStats({ data, loading, error }) {
   const symbol = data?.Symbol || "N/A";
+
   const formatNumber = (num) => {
     if (num === null || num === undefined) return "-";
     if (num >= 1e12) return (num / 1e12).toFixed(2) + "T";
@@ -25,26 +26,22 @@ function KeyStats({ data, loading, error }) {
     return (num * 100).toFixed(2) + "%";
   };
 
-  if (loading) return <p>Loading stock data...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!data) return <p>No data available for {symbol}</p>;
+  if (loading) return <Typography>Loading stock data...</Typography>;
+  if (error) return <Typography color="error">Error: {error}</Typography>;
+  if (!data || typeof data !== "object") return <Typography>No data available for {symbol}</Typography>;
 
-  // Grouped stats
   const groupedStats = {
     "Price & Performance": [
-      { label: "Symbol", value: data.Symbol },
-      { label: "Exchange", value: data.Exchange },
+      { label: "Symbol", value: data.Symbol ?? "-" },
+      { label: "Exchange", value: data.Exchange ?? "-" },
       { label: "Beta", value: data.Beta ?? "-" },
     ],
     Financials: [
       { label: "Revenue (TTM)", value: formatNumber(data.RevenueTTM) },
-      {
-        label: "Quarterly Revenue Growth YOY",
-        value: formatPercentage(data.QuarterlyRevenueGrowthYOY),
-      },
+      { label: "Quarterly Revenue Growth YOY", value: formatPercentage(data.QuarterlyRevenueGrowthYOY) },
       { label: "EPS", value: data.EPS ?? "-" },
-      { label: "Sector", value: data.Sector },
-      { label: "Industry", value: data.Industry },
+      { label: "Sector", value: data.Sector ?? "-" },
+      { label: "Industry", value: data.Industry ?? "-" },
     ],
     Dividend: [
       { label: "Dividend per Share", value: data.DividendPerShare ?? "-" },
@@ -71,14 +68,20 @@ function KeyStats({ data, loading, error }) {
           <TableContainer component={Paper} elevation={0}>
             <Table size="small">
               <TableBody>
-                {stats.map((stat, i) => (
-                  <TableRow key={i}>
-                    <TableCell sx={{ fontWeight: "bold", width: "40%" }}>
-                      {stat.label}
-                    </TableCell>
-                    <TableCell>{stat.value}</TableCell>
+                {Array.isArray(stats) ? (
+                  stats.map((stat, i) => (
+                    <TableRow key={i}>
+                      <TableCell sx={{ fontWeight: "bold", width: "40%" }}>
+                        {stat.label}
+                      </TableCell>
+                      <TableCell>{stat.value}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={2}>No stats available</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </TableContainer>

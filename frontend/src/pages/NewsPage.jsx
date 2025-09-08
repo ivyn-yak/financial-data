@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import useNewsData from "../hooks/useNewsData";
+import useNewsData from "../hooks/useNewsData.jsx";
 
 function NewsPage() {
   const { symbol } = useParams();

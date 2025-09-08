@@ -1,12 +1,12 @@
 import React from "react";
-import CompanyProfile from "../components/CompanyProfile";
-import useFetch from "../hooks/useFetch";
+import CompanyProfile from "../components/CompanyProfile.jsx";
+import useFetch from "../hooks/useFetch.jsx";
 import { useParams } from "react-router-dom";
 import { Grid, Box, Stack } from "@mui/material";
-import SectionBox from "../components/SectionBox";
-import NewsSidebar from "../components/NewsSidebar";
-import PerformanceChart from "../components/PerformanceChart";
-import StockChartYF from "../components/StockChartYF";
+import SectionBox from "../components/SectionBox.jsx";
+import NewsSidebar from "../components/NewsSidebar.jsx";
+import PerformanceChart from "../components/PerformanceChart.jsx";
+import StockChartYF from "../components/StockChartYF.jsx";
 
 function PerformancePage() {
   const { symbol } = useParams();
