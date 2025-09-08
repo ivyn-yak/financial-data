@@ -14,10 +14,15 @@ class DataPipeline:
         return SessionLocal()
     
     def run_all_by_symbol(self, symbol):
+        print("Getting company profile...")
         self.run_company(symbol)
+        print("Getting balance sheet...")
         self.run_balance_sheet(symbol, quarters=12)
+        print("Getting income statement...")
         self.run_income_statement(symbol, quarters=12)
+        print("Getting cash flow statement...")
         self.run_cash_flow(symbol, quarters=12)
+        print("Getting news sentiment...")
         self.run_news_sentiment(tickers=[symbol])
 
     def run_company(self, symbol):

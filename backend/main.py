@@ -9,10 +9,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 # Allowed origins (frontend URLs)
-origins = [
-    "http://localhost:5173",  # Vite dev server
-    "http://localhost:3000",  # React dev server
-]
+origins = ["*"]
 
 # include routers
 app.include_router(company.router)
