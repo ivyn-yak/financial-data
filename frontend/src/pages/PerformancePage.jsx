@@ -1,5 +1,4 @@
 import React from "react";
-import KeyStats from "../components/KeyStats";
 import CompanyProfile from "../components/CompanyProfile";
 import useFetch from "../hooks/useFetch";
 import { useParams } from "react-router-dom";
@@ -7,6 +6,7 @@ import { Grid, Box, Stack } from "@mui/material";
 import SectionBox from "../components/SectionBox";
 import NewsSidebar from "../components/NewsSidebar";
 import PerformanceChart from "../components/PerformanceChart";
+import StockChartYF from "../components/StockChartYF";
 
 function PerformancePage() {
   const { symbol } = useParams();
@@ -26,9 +26,9 @@ function PerformancePage() {
               }
             />
             <SectionBox
-              title="Key Statistics"
+              title={`${symbol} Stock Chart`}
               children={
-                <KeyStats data={data} loading={loading} error={error} />
+                <StockChartYF data={data} loading={loading} error={error} />
               }
             />
           </Stack>

@@ -1,4 +1,3 @@
-from api.utils import save_to_json, build_news_filename
 import requests_cache
 import yfinance as yf
 import pandas as pd
@@ -32,5 +31,10 @@ class YFinance:
         daily_returns = hist.pct_change().fillna(0)
         cum_returns = (1 + daily_returns).cumprod() - 1
         return cum_returns
-
+    
+    def get_stock_price(self, period="3mo"):
+        return self.ticker.history(period=period)
+        
+    def get_fast_info(self):
+        return self.ticker.fast_info
 

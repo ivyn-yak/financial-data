@@ -1,5 +1,5 @@
 import React from "react";
-import StockChart from "../components/StockChart";
+import StockChartYF from "../components/StockChartYF";
 import KeyStats from "../components/KeyStats";
 import CompanyProfile from "../components/CompanyProfile";
 import useFetch from "../hooks/useFetch";
@@ -22,7 +22,7 @@ function HomePage() {
             <SectionBox
               title={`${symbol} Stock Chart`}
               children={
-                <StockChart />
+                <StockChartYF />
               }
             />
             <SectionBox

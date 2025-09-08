@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 const Header = () => {
   const { symbol } = useParams();
-  const url = `/tickers/${symbol}`;
+  const url = `/stock-price/yf/${symbol}`;
   const { data, loading, error } = useFetch(url);
   console.log("Fetched header data:", data);
 
@@ -36,10 +36,21 @@ const Header = () => {
       {/* Vertical Divider */}
       <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
 
-      {/* Price + currency */}
       <Box sx={{ display: "flex", alignItems: "baseline", gap: 1 }}>
-        <Typography variant="h5" sx={{ fontWeight: 700 }}>
-          {entity.last_price?.toFixed(2) ?? "--"}
+        {/* Price */}
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: 700 }}
+        >
+          {entity.last_price != null ? entity.last_price.toFixed(2) : "--"}
+        </Typography>
+
+        {/* Currency */}
+        <Typography
+          variant="subtitle1"
+          sx={{ fontWeight: 500, color: "text.secondary" }}
+        >
+          {entity.currency ?? "USD"}
         </Typography>
 
         {/* Change + percentage */}

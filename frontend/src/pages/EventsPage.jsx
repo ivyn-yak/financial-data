@@ -13,7 +13,7 @@ export default function EventsPage() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const dataRows = data.map((event, index) => ({
+  const dataRows = (data || []).map((event, index) => ({
     id: index + 1,
     earnings_call_id: event.id,
     quarter: event.quarter.replace(/(....)(Q\d)/, "$1 $2"),
