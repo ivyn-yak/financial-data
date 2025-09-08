@@ -1,51 +1,42 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Box, Paper, Typography } from "@mui/material";
+import { useParams, useLocation } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
+import Transcript from "../components/Transcript";
+import TranscriptSidebar from "../components/TranscriptSidebar";
+import { Grid, Box } from "@mui/material";
+import SectionBox from "../components/SectionBox";
 
 export default function TranscriptPage() {
-  const { _, earnings_call_id, quarter } = useParams();
+  const { symbol, earnings_call_id } = useParams();
   const url = `/earnings/transcript/${earnings_call_id}`;
   const { data, loading, error } = useFetch(url);
   console.log("Transcript data:", data);
+
+  const location = useLocation();
+  const { quarter } = location.state || {};
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <Box sx={{ width: "90%" }}>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5, p: 2 }}>
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: 600, color: "#424242", mb: 0.5 }}
-        >
-          Transcript for {quarter} Earnings Call
-        </Typography>
-        {data.map((segment) => (
-          <Box
-            key={segment.id}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              padding: 1.5,
-              borderBottom: "1px solid #e0e0e0",
-            }}
-          >
-            <Typography
-              variant="subtitle2"
-              sx={{ fontWeight: 600, color: "#424242", mb: 0.5 }}
-            >
-              {segment.speaker} {segment.title ? `• ${segment.title}` : ""}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: "#212121", lineHeight: 1.6 }}
-            >
-              {segment.content}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
+    <Box sx={{ p: 4 }}>
+      <Grid container spacing={1}>
+        {/* Main content: Key Stats */}
+        <Grid item size={{ xs: 12, md: 8 }}>
+          <SectionBox
+            title={`Transcript for ${quarter} Earnings Call`}
+            children={<Transcript data={data} />}
+          />
+        </Grid>
+
+        {/* Sidebar: Company Profile */}
+        <Grid item size={{ xs: 12, md: 4 }}>
+          <SectionBox
+            title="Transcript Overview"
+            children={<TranscriptSidebar data={data} />}
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 }

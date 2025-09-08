@@ -23,7 +23,7 @@ export default function EventsPage() {
   const columns = [
     { field: "id", headerName: "No.", width: 100 },
     { field: "quarter", headerName: "Quarter", width: 200 },
-    { field: "eventType", headerName: "Event Type", flex: 2 },  
+    { field: "eventType", headerName: "Event Type", flex: 2 },
   ];
 
   return (
@@ -35,7 +35,7 @@ export default function EventsPage() {
         pageSize={10}
         onRowClick={(params) => {
           navigate(`/${symbol}/events/${params.row.earnings_call_id}`, {
-            state: { earnings_call_id: params.row.earnings_call_id, quarter: params.row.quarter },
+            state: { quarter: params.row.quarter },
           });
         }}
         disableSelectionOnClick
