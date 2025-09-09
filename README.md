@@ -36,7 +36,7 @@ docker-compose down -v
 Git Clone
 
 ```bash
-  git clone https://github.com/ivyn-yak/stock-price.git
+  git clone https://github.com/ivyn-yak/financial-data.git
 ```
     
 Run frontend
