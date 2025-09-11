@@ -11,6 +11,7 @@ services:
       - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
       - DATABASE_URL=${DATABASE_URL}
       - BACKEND_PORT=${BACKEND_PORT}
+      - INSERT_MOCK_DATA=${INSERT_MOCK_DATA}
     depends_on:
       postgres_db:
         condition: service_healthy

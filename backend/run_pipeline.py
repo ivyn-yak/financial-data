@@ -98,6 +98,10 @@ def insert_mock_data(db=None):
         loader.batch_insert_earnings_transcript(db, processed_transcript)
 
 if __name__ == "__main__":
-    main()
-    # Run this instead of main() to insert mock data into the database
-    # insert_mock_data() 
+    mock_data_flag = os.getenv("INSERT_MOCK_DATA", "FALSE")
+    print(f"INSERT_MOCK_DATA is set to {mock_data_flag}")
+
+    if mock_data_flag == "TRUE":
+        insert_mock_data()
+    else:
+        main()

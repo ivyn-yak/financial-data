@@ -8,20 +8,49 @@
 - [Alpha Vantage Stock Market API](https://www.alphavantage.co/documentation/)  
 - [yfinance Python package](https://ranaroussi.github.io/yfinance/)
 
-### Set Up .env
+### API Rate Limit Workaround
+Set INSERT_MOCK_DATA=TRUE in the root `.env` to load data from previously run API calls.
+
+### Set Up .env in `root`
+Refer to `.env.sample` in root.
 ```
-    # Postgres
-    POSTGRES_USER= <postgres>
-    POSTGRES_PASSWORD= <secret>
-    POSTGRES_DB= <mydb>
+  # Postgres
+  POSTGRES_USER=YOUR_POSTGRES_USER
+  POSTGRES_PASSWORD=YOUR_POSTGRES_PASSWORD
+  POSTGRES_DB=YOUR_POSTGRES_DB
+  POSTGRES_PORT=YOUR_POSTGRES_PORT
 
-    # Backend
-    ALPHA_VANTAGE_API_KEY= <your_alpha_vantage_key>
-    DATABASE_URL= <postgres://postgres:secret@postgres_db:5432/mydb>
+  # Backend
+  ALPHA_VANTAGE_API_KEY=YOUR_ALPHA_VANTAGE_API_KEY
+  DATABASE_URL=YOUR_DATABASE_URL
+  BACKEND_PORT=YOUR_BACKEND_PORT
 
-    # Frontend - Do not edit
-    VITE_BACKEND_URL=http://backend:8000
+  # Frontend (Docker)
+  VITE_BACKEND_URL=/api
+  FRONTEND_PORT=YOUR_FRONTEND_PORT
 
+  # Frontend (Local)
+  # VITE_BACKEND_URL=http://localhost:8000
+  # FRONTEND_PORT=YOUR_FRONTEND_PORT
+
+  # Insert Mock Data (API Rate Limit Workaround)
+  # Change to TRUE if there is an API rate limit 
+  INSERT_MOCK_DATA=FALSE
+
+```
+
+### Set Up .env in `./frontend`
+Refer to `.env.sample.frontend` in root.
+Vite loads `.env` files relative to the directory where `vite.config.js` is located.
+
+```
+  # Frontend (Docker)
+  VITE_BACKEND_URL=/api
+  FRONTEND_PORT=YOUR_FRONTEND_PORT
+
+  # Frontend (Local)
+  # VITE_BACKEND_URL=http://localhost:8000
+  # FRONTEND_PORT=YOUR_FRONTEND_PORT
 ```
 
 ### Run on Docker
@@ -62,7 +91,6 @@ Run backend
 ```
 
 Access frontend with `localhost:5173`.
-
 
 ## Data Retrieved
 ### Market Data (from yfinance)
