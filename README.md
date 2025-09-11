@@ -31,6 +31,8 @@ docker-compose up
 docker-compose down -v
 ```
 
+Access frontend with `localhost:3000`.
+
 ### Run Locally
 
 Git Clone
@@ -59,7 +61,7 @@ Run backend
   uvicorn main:app --reload
 ```
 
-
+Access frontend with `localhost:5173`.
 
 
 ## Data Retrieved
