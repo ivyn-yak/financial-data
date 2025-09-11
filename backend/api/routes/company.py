@@ -6,7 +6,7 @@ from schemas.company import CompanySchema
 from typing import List
 from uuid import UUID 
 
-router = APIRouter(prefix="/company")
+router = APIRouter(prefix="/api/company")
 
 @router.get("/", response_model=List[CompanySchema])
 def get_all_companies(db: Session = Depends(get_db)):

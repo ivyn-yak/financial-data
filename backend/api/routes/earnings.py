@@ -7,7 +7,7 @@ from schemas.earnings_transcript import EarningsCallSchema, TranscriptSegmentSch
 from typing import List
 from uuid import UUID
 
-router = APIRouter(prefix="/earnings")
+router = APIRouter(prefix="/api/earnings")
 
 @router.get("/", response_model=List[EarningsCallSchema])
 def get_all_earnings_calls(db: Session = Depends(get_db)):

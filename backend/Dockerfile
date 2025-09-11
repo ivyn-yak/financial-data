@@ -7,6 +7,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy Python dependencies
@@ -21,8 +22,5 @@ COPY . .
 # Set environment variable for production
 ENV PYTHONUNBUFFERED=1
 
-# Expose port for FastAPI
-EXPOSE 8000
-
 # Run script first, then start Uvicorn
-CMD python run_pipeline.py && uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+CMD python run_pipeline.py && uvicorn main:app --host 0.0.0.0

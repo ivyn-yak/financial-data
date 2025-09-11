@@ -27,6 +27,7 @@ class DataPipeline:
 
     def run_company(self, symbol):
         json_data = self.av.get_fundamental_data(symbol, "OVERVIEW")
+        print(json_data)
         processed_data = self.transformer.get_company_schema(json_data)
         session = self.get_session()
         self.loader.insert_company(session, processed_data)

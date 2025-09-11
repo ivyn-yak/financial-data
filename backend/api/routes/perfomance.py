@@ -1,7 +1,7 @@
 from api.yfinance import YFinance
 from fastapi import APIRouter, HTTPException
 
-router = APIRouter(prefix="/performance")
+router = APIRouter(prefix="/api/performance")
     
 @router.get("/{symbol}/chart")
 def get_performance_graphs(symbol: str, baseline: str = "^GSPC"):

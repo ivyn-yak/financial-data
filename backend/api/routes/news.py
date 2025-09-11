@@ -6,7 +6,7 @@ from models import NewsArticle, TickerSentiment
 from schemas.news import NewsArticleSchema
 from typing import List
 
-router = APIRouter(prefix="/news")
+router = APIRouter(prefix="/api/news")
 
 @router.get("/", response_model=List[NewsArticleSchema])
 def get_all_news(db: Session = Depends(get_db)):

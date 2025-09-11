@@ -8,7 +8,7 @@ from models import CashFlowStatement, Company
 from schemas import CashFlowStatementSchema
 from schemas.enums import Period
 
-router = APIRouter(prefix="/cash_flow")
+router = APIRouter(prefix="/api/cash_flow")
 
 @router.get("/", response_model=List[CashFlowStatementSchema])
 def get_all_cash_flows(db: Session = Depends(get_db)):

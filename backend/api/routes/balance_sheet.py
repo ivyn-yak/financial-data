@@ -8,7 +8,7 @@ from models import BalanceSheet, Company
 from schemas import BalanceSheetSchema
 from schemas.enums import Period
 
-router = APIRouter(prefix="/balance_sheet")
+router = APIRouter(prefix="/api/balance_sheet")
 
 @router.get("/", response_model=List[BalanceSheetSchema])
 def get_all_balance_sheets(db: Session = Depends(get_db)):

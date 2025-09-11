@@ -8,7 +8,7 @@ from models import IncomeStatement, Company
 from schemas import IncomeStatementSchema
 from schemas.enums import Period
 
-router = APIRouter(prefix="/income_statement")
+router = APIRouter(prefix="/api/income_statement")
 
 @router.get("/", response_model=List[IncomeStatementSchema])
 def get_all_income_statements(db: Session = Depends(get_db)):

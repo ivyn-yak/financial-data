@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 import os
 from dotenv import load_dotenv
 
-router = APIRouter(prefix="/stock-price")
+router = APIRouter(prefix="/api/stock-price")
 
 load_dotenv()
 ALPHA_VANTAGE_API_KEY = os.getenv("ALPHA_VANTAGE_API_KEY")
