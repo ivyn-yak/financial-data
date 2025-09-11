@@ -147,4 +147,4 @@ Relevant news with ticker sentiments. News and sentiments from Alpha Vantage.
 #### Events/Transcript Page
 Earnings call transcripts with metrics sidebar. Transcript and segment sentiments from Alpha Vantage.
 
-![onload](/frontend/public/news.png)
+![onload](/frontend/public/transcript.png)
